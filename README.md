@@ -207,29 +207,6 @@ Gorgon Eye's test suite, landing page, core detection logic, and ML training pip
 
 Claude Code was used as a pair programmer throughout: the design decisions, privacy model, and product requirements originated with the team; Claude Code handled implementation, test generation, and boilerplate acceleration.
 
-## Implementation Status
-
-All twelve epics are functionally complete. The only outstanding item is the recorded demo video (AEG-12-3).
-
-### Shipped
-
-- **Scaffold (Epic 1)** — WXT + TypeScript + React + Manifest V3, typed message bus, KV-backed settings and verdict cache, background service worker, popup, options page, welcome page, Gmail / Outlook / generic content scripts.
-- **Rules engine (Epic 2)** — ten rules with the signals described above. Noisy-OR fusion in [`src/detection/fusion.ts`](src/detection/fusion.ts) maps to the documented verdict thresholds.
-- **Local ML (Epic 3)** — Python feature engineering + ONNX export + TypeScript feature parity (frozen JSON snapshot) + ONNX Runtime Web integration. Off by default; opt in from settings.
-- **Explanations (Epic 4)** — `buildTemplateExplanation()` deterministic baseline plus the WebLLM path on SmolLM2-1.7B-Instruct-q4f32 (TTFT 1077 ms, 35.6 tok/s from the AEG-4-1 PoC). Lazy-loaded, streams progress and tokens, falls back to templates on any error.
-- **Threat intelligence (Epic 5)** — Safe Browsing v4 URL canonicalization, host/path expression enumeration, SHA-256 + 4-byte prefix hashing, local prefix DB, `SafeBrowsingClient.lookup()` through the audited fetch. Full URLs never leave the device.
-- **Visual brand impersonation (Epic 6)** — 64-bit DCT perceptual hashing, brand DB matcher, `VisualClient`. `OffscreenImageSource` fetches the target page through `auditedFetch` with explicit per-URL consent; declines are also audited.
-- **Email + browser integration (Epic 7)** — Gmail and Outlook content scripts with MutationObserver-backed link extraction and inline badges. Email-header analysis parses SPF / DKIM / DMARC from Gmail's "Show original" view. Generic hover scanner with debounce, dedupe, sliding-window rate limit, and trusted-domain allowlist.
-- **Micro-training (Epic 8)** — Post-phishing-verdict training card with three options and an explanation. The optional WebLLM path personalizes the card per URL; falls back to the deterministic template on any error.
-- **UI (Epic 9)** — Tailwind v4 design system (Button, Badge, Tooltip, ProgressBar, Toggle, Panel), popup with protection toggle, scan counters, manual scan, recent verdicts, verdict detail panel, live transparency panel. Options page with layer toggles, trusted domains, telemetry opt-in, and clear-data. First-install welcome tour.
-- **Audit + privacy verifier (Epic 10)** — centralized `auditedFetch` records destination, purpose, byte counts, and data category for every outbound call; refuses URL-bearing bodies outside consented target-origin inspection; refuses email-content fields structurally. One-click privacy verifier produces a pass/fail proof.
-- **QA (Epic 11)** — 25-fixture demo corpus, parameterized verdict/rule assertions, performance-budget test (P50 < 100 ms, P95 < 300 ms; current run: P50 ≈ 0.29 ms, P95 ≈ 1.92 ms). Coverage gate ≥ 80% per detection folder; 487 tests across 61 files.
-- **Demo + pitch (Epic 12, partial)** — Landing page ([landing/index.html](landing/index.html)).
-
-### Pending
-
-- **Demo video recording (Epic 12, AEG-12-3)** — record the 75-second demo. All supporting assets are shipped.
-
 ## Quick Start
 
 ```bash
@@ -402,4 +379,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, repository layout, test conven
 
 ## License
 
-Gorgon Eye is licensed under the [Apache 2.0 License](LICENSE). Apache 2.0 was chosen for the explicit patent grant; the rationale is in [ADR-0009](docs/adrs/0009-telemetry-audit-and-open-source-posture.md).
+Gorgon Eye is licensed under the [Apache 2.0 License](LICENSE). Apache 2.0 was chosen for its explicit patent grant, which matters for a security tool that may implement patented detection techniques.
