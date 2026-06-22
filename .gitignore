@@ -1,0 +1,65 @@
+node_modules
+.output
+.wxt
+stats.html
+stats-*.json
+
+dist
+build
+coverage
+
+# Playwright artefacts
+tests/e2e/.results/
+playwright-report/
+test-results/
+
+# onnxruntime-web runtime files copied by scripts/copy-ort-runtime.mjs
+public/ort/
+
+# Secrets — never commit any of these.
+.env
+.env.local
+.env.*.local
+secrets/
+*.pem
+*.key
+
+# ML training artefacts and datasets (Epic 3 land-zone).
+# Exclude everything under training/ except scripts and docs.
+training/datasets/
+training/artifacts/
+training/raw/
+training/*.csv
+training/*.parquet
+training/*.joblib
+training/*.pkl
+
+# Model binaries shipped via public/models/ are released through the model-release
+# workflow, not committed as part of regular PRs.
+public/models/*.onnx
+public/models/*.bin
+
+# Phishing fixtures other than the synthetic demo set must not be committed.
+tests/fixtures/raw-phish/
+
+# Presenter materials — runbook for the user's own external tasks (hardware
+# benchmarks, video recording session) plus the pitch-deck outline and the
+# 75-second demo script. These belong to whoever presents the project, not to
+# every external contributor; keep them out of the public history.
+personal-docs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
