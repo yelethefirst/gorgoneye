@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  /* Verdict palette — used by Badge, status borders, and progress fills.
+     Keep these in lockstep with src/ui/components/Badge.tsx. */
+  --color-verdict-safe: #1f8a3a;
+  --color-verdict-safe-soft: #e7f5ec;
+  --color-verdict-suspicious: #b25b00;
+  --color-verdict-suspicious-soft: #fdf1e1;
+  --color-verdict-phishing: #b00020;
+  --color-verdict-phishing-soft: #fbe7eb;
+  --color-verdict-unknown: #555555;
+  --color-verdict-unknown-soft: #efefef;
+
+  /* Surface palette. */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f6f8;
+  --color-surface-border: #e4e4ea;
+  --color-text-primary: #111111;
+  --color-text-secondary: #555a64;
+  --color-text-tertiary: #8a8f99;
+  --color-accent: #2b59c3;
+  --color-accent-soft: #e7edff;
+  --color-focus-ring: #2b59c3;
+
+  /* Typography tokens. */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-2xs: 0.6875rem; /* 11px */
+}
+
+/* Global resets and base styles for extension pages (popup, options). */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Universal focus ring so keyboard users always see where focus is. */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
