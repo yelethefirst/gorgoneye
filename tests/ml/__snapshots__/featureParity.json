@@ -5,9 +5,9 @@
     {
       "url": "https://github.com/aegishield/gorgon-eye",
       "features": {
-        "url_length": 42,
+        "url_length": 40,
         "hostname_length": 10,
-        "path_length": 24,
+        "path_length": 22,
         "query_length": 0,
         "fragment_length": 0,
         "dot_count": 1,
@@ -27,7 +27,7 @@
         "min_brand_edit_distance": 0,
         "host_digit_ratio": 0,
         "host_entropy": 3.321928024291992,
-        "path_entropy": 3.522055149078369,
+        "path_entropy": 3.6069365503564939,
         "url_length_bucket_long": 0,
         "url_length_bucket_very_long": 0
       }
