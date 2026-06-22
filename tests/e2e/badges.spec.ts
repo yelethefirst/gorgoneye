@@ -39,10 +39,13 @@ test.afterAll(async () => {
 });
 
 test("the extension loads and exposes the welcome page", async () => {
-  // chrome.runtime.onInstalled opens the welcome page on a fresh profile.
-  // Wait for a tab whose URL ends with welcome.html — fail fast if the
-  // extension didn't load at all.
-  const welcomePage = await context.waitForEvent("page", { timeout: 15_000 });
+  // onInstalled fires during context creation (beforeAll), so the welcome tab
+  // may already be open by the time this test runs. Register the listener
+  // first to close the race window, then check existing pages.
+  const futureWelcomePage = context.waitForEvent("page", { timeout: 15_000 });
+  const existingWelcome = context.pages().find((p) => p.url().includes("welcome"));
+  const welcomePage = existingWelcome ?? (await futureWelcomePage);
+
   await welcomePage.waitForLoadState("domcontentloaded");
   await expect(welcomePage.locator("body")).toContainText("Gorgon Eye");
   await welcomePage.close();
