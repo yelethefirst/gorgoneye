@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aegis Gorgon — Privacy-preserving phishing defense</title>
+    <meta
+      name="description"
+      content="A browser extension that catches phishing locally — your email content never leaves your device, full URLs are never sent to any service, and every outbound byte is audited."
+    />
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --surface: #ffffff;
+        --border: #e1e4eb;
+        --text: #161823;
+        --text-2: #5a6072;
+        --text-3: #8a91a3;
+        --accent: #2b59c3;
+        --accent-soft: #e7edff;
+        --safe: #1f8a3a;
+        --safe-soft: #e7f5ec;
+        --warn: #b25b00;
+        --warn-soft: #fdf1e1;
+        --danger: #b00020;
+        --danger-soft: #fbe7eb;
+        --radius: 10px;
+        --width: 1040px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+      }
+      .container {
+        max-width: var(--width);
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      header.nav {
+        position: sticky;
+        top: 0;
+        background: rgba(246, 247, 251, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        z-index: 10;
+      }
+      header.nav .row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        height: 56px;
+      }
+      header.nav .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      header.nav .brand .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      header.nav nav {
+        margin-left: auto;
+        display: flex;
+        gap: 18px;
+        font-size: 14px;
+      }
+      header.nav nav a {
+        color: var(--text-2);
+        text-decoration: none;
+      }
+      header.nav nav a:hover {
+        color: var(--text);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: background 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #234aa3;
+      }
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-secondary:hover {
+        background: var(--bg);
+      }
+
+      .hero {
+        padding: 80px 0 56px;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 48px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0 auto 16px;
+        max-width: 720px;
+      }
+      .hero p.lede {
+        font-size: 18px;
+        color: var(--text-2);
+        max-width: 640px;
+        margin: 0 auto 28px;
+      }
+      .hero .cta {
+        display: inline-flex;
+        gap: 12px;
+      }
+      .hero .badges {
+        margin-top: 32px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--text-3);
+      }
+      .hero .badges span {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+      section h2 {
+        font-size: 28px;
+        letter-spacing: -0.01em;
+        margin: 0 0 12px;
+      }
+      section p.eyebrow {
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      section.alt {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 28px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+      }
+      .card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .card p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-2);
+      }
+      .card .icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      .icon-safe {
+        background: var(--safe-soft);
+        color: var(--safe);
+      }
+      .icon-warn {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .icon-danger {
+        background: var(--danger-soft);
+        color: var(--danger);
+      }
+      .icon-accent {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .verdict-row {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .verdict-row:last-child {
+        border-bottom: none;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .pill::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .pill-safe {
+        color: var(--safe);
+        background: var(--safe-soft);
+      }
+      .pill-warn {
+        color: var(--warn);
+        background: var(--warn-soft);
+      }
+      .pill-danger {
+        color: var(--danger);
+        background: var(--danger-soft);
+      }
+      code {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        background: var(--bg);
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: var(--text);
+      }
+
+      .promises {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 24px;
+      }
+      .promise {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 14px;
+      }
+      .promise .check {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        background: var(--safe-soft);
+        color: var(--safe);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .stack-list {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        column-gap: 20px;
+        row-gap: 8px;
+        margin-top: 16px;
+        font-size: 14px;
+      }
+      .stack-list dt {
+        color: var(--text-2);
+      }
+      .stack-list dd {
+        margin: 0;
+      }
+
+      footer.foot {
+        padding: 48px 0;
+        font-size: 13px;
+        color: var(--text-3);
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+      footer.foot .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      footer.foot a {
+        color: var(--text-2);
+      }
+
+      @media (max-width: 720px) {
+        .hero h1 {
+          font-size: 32px;
+        }
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .promises {
+          grid-template-columns: 1fr;
+        }
+        .stack-list {
+          grid-template-columns: 130px 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container row">
+        <div class="brand">
+          <span class="dot" aria-hidden="true"></span>
+          Aegis Gorgon
+        </div>
+        <nav>
+          <a href="#how">How it works</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#stack">Tech stack</a>
+          <a href="#install">Install</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Phishing protection that doesn't read your email.</h1>
+        <p class="lede">
+          Aegis Gorgon is a privacy-preserving browser extension that catches phishing
+          locally — at the moment you hover a link. Email content never leaves your device.
+          Full URLs are never sent to any service. Every outbound byte is audited.
+        </p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#install">Install for Chrome</a>
+          <a class="btn btn-secondary" href="https://github.com/aegishield/aegis-gorgon"
+            >Source on GitHub</a
+          >
+        </div>
+        <div class="badges" aria-label="Project badges">
+          <span>Local-first detection</span>
+          <span>Open source · Apache 2.0</span>
+          <span>Hash-prefix threat intel</span>
+          <span>Audited every byte</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="alt">
+      <div class="container">
+        <p class="eyebrow">How it works</p>
+        <h2>Five independent layers. One verdict. Full explanation.</h2>
+        <p style="margin: 0; color: var(--text-2); max-width: 680px">
+          Each layer runs on its own and contributes evidence. The fusion engine combines
+          them via a transparent weighted noisy-OR; you see the breakdown in the popup.
+        </p>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">1</div>
+            <h3>Rules engine</h3>
+            <p>
+              Nine deterministic checks for typosquatting, homographs, embedded credentials,
+              URL-in-URL redirects, and more — sub-millisecond, fully local.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">2</div>
+            <h3>Local ML classifier</h3>
+            <p>
+              On-device XGBoost model exported to ONNX. 25 features, runs in
+              <code>onnxruntime-web</code>, never sees the network.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">3</div>
+            <h3>Threat intelligence</h3>
+            <p>
+              Google Safe Browsing via the privacy-preserving 4-byte hash-prefix flow —
+              the URL itself is never transmitted.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">4</div>
+            <h3>Visual brand matching</h3>
+            <p>
+              Perceptual-hash check against a local brand database. Catches lookalike
+              login pages on look-clean domains. Consent-gated.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">5</div>
+            <h3>Explanation</h3>
+            <p>
+              Verdicts come with a 2–3 sentence summary plus actionable guidance.
+              Optional local LLM; deterministic template fallback always available.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon icon-accent" aria-hidden="true">★</div>
+            <h3>Inline + popup UI</h3>
+            <p>
+              Badges render beside Gmail / Outlook links. Hover anywhere else for a mini
+              warning. Click the badge for the full layer breakdown.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 36px">
+          <p class="eyebrow">Verdicts</p>
+          <div class="verdict-row">
+            <span class="pill pill-safe">Safe</span>
+            <span>No risk signals fired. Score &lt; 0.30.</span>
+          </div>
+          <div class="verdict-row">
+            <span class="pill pill-warn">Suspicious</span>
+            <span>One or more risk signals fired. Confidence between 0.30 and 0.74.</span>
+          </div>
+          <div class="verdict-row">
+            <span class="pill pill-danger">Phishing</span>
+            <span>
+              Multiple independent strong signals, or a confirmed Safe Browsing match.
+              Confidence ≥ 0.75.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <div class="container">
+        <p class="eyebrow">Privacy</p>
+        <h2>The promises, in writing.</h2>
+        <p style="margin: 0; color: var(--text-2); max-width: 720px">
+          These aren't marketing copy. Every promise here is enforced structurally in code
+          and verified by the one-click privacy verifier on the options page.
+        </p>
+
+        <div class="promises">
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>Email body content never leaves your device.</span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>Full scanned URLs are never sent to Aegis-controlled services.</span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>
+              Safe Browsing lookups use the 4-byte hash-prefix flow only — never the URL.
+            </span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>Every outbound network call goes through an audited fetch wrapper.</span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>The audit log is visible on the options page and exports as JSON.</span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>Telemetry is opt-in. There is no telemetry implementation today.</span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>
+              Visual inspection contacts the target origin only with explicit per-scan
+              consent.
+            </span>
+          </div>
+          <div class="promise">
+            <span class="check" aria-hidden="true">✓</span>
+            <span>
+              The privacy verifier replays the full pipeline locally and shows pass/fail
+              checks.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="alt">
+      <div class="container">
+        <p class="eyebrow">Tech stack</p>
+        <h2>Open source, audited, small footprint.</h2>
+        <dl class="stack-list">
+          <dt>Framework</dt>
+          <dd>WXT, TypeScript, React, Manifest V3</dd>
+          <dt>UI</dt>
+          <dd>Tailwind v4 design system; 6 accessible primitives</dd>
+          <dt>Rules</dt>
+          <dd>9 deterministic checks against a curated brand list</dd>
+          <dt>ML</dt>
+          <dd>
+            XGBoost → ONNX → <code>onnxruntime-web</code>; 25 features at byte parity with
+            the Python pipeline
+          </dd>
+          <dt>Threat intel</dt>
+          <dd>Google Safe Browsing v4 hash-prefix flow</dd>
+          <dt>Visual</dt>
+          <dd>64-bit DCT perceptual hash + Hamming nearest-brand lookup</dd>
+          <dt>Tests</dt>
+          <dd>
+            440+ Vitest specs, Playwright E2E, frozen parity snapshots, enforced 80%
+            coverage on every detection module
+          </dd>
+          <dt>License</dt>
+          <dd>Apache 2.0</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="container">
+        <p class="eyebrow">Install</p>
+        <h2>Two-minute setup.</h2>
+        <ol style="padding-left: 18px; font-size: 15px; color: var(--text-2)">
+          <li>
+            <strong>Get the build.</strong> Clone the repo and run <code>pnpm install</code>,
+            then <code>pnpm build</code>. The extension lands in
+            <code>.output/chrome-mv3/</code>.
+          </li>
+          <li>
+            <strong>Load it unpacked.</strong> Open <code>chrome://extensions</code>, turn
+            on Developer Mode, click <em>Load unpacked</em>, and pick the build directory.
+          </li>
+          <li>
+            <strong>Pin the icon.</strong> Click the puzzle-piece, find Aegis Gorgon, hit
+            the pin.
+          </li>
+          <li>
+            <strong>Open the welcome tour.</strong> It opens automatically on first install;
+            the privacy posture and what stays local are explained in two screens.
+          </li>
+        </ol>
+        <p style="margin-top: 20px">
+          Firefox MV2 build:
+          <code>pnpm build:firefox</code>. Load <code>.output/firefox-mv2/manifest.json</code>
+          via <code>about:debugging</code>.
+        </p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="container row">
+        <span>© 2026 The Aegis Gorgon Authors</span>
+        <span>·</span>
+        <a href="https://github.com/aegishield/aegis-gorgon">GitHub</a>
+        <span>·</span>
+        <a href="https://github.com/aegishield/aegis-gorgon/blob/main/LICENSE">License</a>
+        <span>·</span>
+        <a href="https://github.com/aegishield/aegis-gorgon/blob/main/CONTRIBUTING.md"
+          >Contributing</a
+        >
+        <span>·</span>
+        <a
+          href="https://github.com/aegishield/aegis-gorgon/blob/main/docs/architecture/privacy-and-threat-model.md"
+          >Privacy and threat model</a
+        >
+      </div>
+    </footer>
+  </body>
+</html>

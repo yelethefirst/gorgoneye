@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inbox · Aegis Gorgon Outlook fixture</title>
+    <meta name="aegis-fixture" content="outlook-message" />
+    <style>
+      body {
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        margin: 0;
+        background: #f5f5f5;
+        color: #201f1e;
+      }
+      [role="main"] {
+        max-width: 720px;
+        margin: 32px auto;
+        background: white;
+        border: 1px solid #d2d0ce;
+        border-radius: 4px;
+        padding: 24px 32px 32px;
+      }
+      header.message-header {
+        border-bottom: 1px solid #edebe9;
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 17px;
+        margin: 0 0 4px;
+      }
+      .meta {
+        font-size: 13px;
+        color: #605e5c;
+      }
+      .body {
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      a {
+        color: #0078d4;
+        text-decoration: underline;
+      }
+      .legend {
+        max-width: 720px;
+        margin: 16px auto 40px;
+        font-size: 12px;
+        color: #605e5c;
+      }
+      .legend code {
+        background: #eee;
+        padding: 1px 4px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Aegis Gorgon demo fixture for Outlook Web. Mirrors the Gmail fixture's
+      structure (a [role="main"] container with http(s) anchors). All
+      hostnames are synthetic. Do not visit any of these URLs.
+    -->
+    <div role="main">
+      <header class="message-header">
+        <h1>Urgent: confirm your Office 365 account before tomorrow</h1>
+        <p class="meta">
+          From: <strong>Microsoft 365 Security &lt;security@micr0soft.example&gt;</strong><br />
+          To: you@contoso.com<br />
+          Sent: today, 8:17 AM
+        </p>
+      </header>
+
+      <div class="body">
+        <p>Hi,</p>
+        <p>
+          A sign-in from an unrecognised device was detected on your account.
+          Please
+          <a href="https://micr0soft.net/account/verify">verify your account here</a>
+          within 24 hours to avoid suspension.
+        </p>
+        <p>
+          You can also reach the
+          <a href="https://example.com/r?u=https://attacker.example/account/login"
+            >password recovery portal</a
+          >
+          if you've forgotten your credentials.
+        </p>
+        <p>
+          For more on phishing, see Microsoft's official page at
+          <a href="https://learn.microsoft.com/en-us/microsoft-365/security/">Microsoft Learn</a>
+          and the
+          <a href="https://en.wikipedia.org/wiki/Phishing">Wikipedia overview</a>.
+        </p>
+        <p>
+          You can also check our
+          <a href="http://10.0.0.42/admin/secure-login">internal status page</a>
+          or
+          <a href="https://invoice.zip/file">this update notice</a>.
+        </p>
+        <p>
+          Best,<br />
+          The Microsoft 365 Security Team
+        </p>
+      </div>
+    </div>
+
+    <p class="legend">
+      Aegis fixture · expected verdicts:
+      <code>micr0soft.net</code> phishing ·
+      <code>example.com/r?u=...</code> suspicious ·
+      <code>learn.microsoft.com</code> safe ·
+      <code>en.wikipedia.org</code> safe ·
+      <code>10.0.0.42</code> phishing ·
+      <code>invoice.zip</code> suspicious.
+    </p>
+  </body>
+</html>

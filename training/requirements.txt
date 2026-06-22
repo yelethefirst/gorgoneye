@@ -1,0 +1,10 @@
+# Locked floors, not exact pins, so contributors on Python 3.11–3.14 can install.
+pandas>=2.0,<3
+scikit-learn>=1.4,<2
+xgboost>=2.0,<3
+onnx>=1.15,<2
+onnxmltools>=1.12,<2
+onnxruntime>=1.17,<2
+numpy>=1.26,<3
+joblib>=1.3,<2
+pyarrow>=14,<22

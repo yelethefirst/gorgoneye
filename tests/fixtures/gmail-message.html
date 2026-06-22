@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inbox · Aegis Gorgon demo fixture</title>
+    <meta name="aegis-fixture" content="gmail-message" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        background: #f6f8fc;
+        color: #202124;
+      }
+      [role="main"] {
+        max-width: 720px;
+        margin: 40px auto;
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 24px 32px 32px;
+      }
+      header.message-header {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      .meta {
+        font-size: 13px;
+        color: #5f6368;
+      }
+      .body {
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      a {
+        color: #1a73e8;
+        text-decoration: underline;
+      }
+      .footer {
+        margin-top: 24px;
+        font-size: 12px;
+        color: #5f6368;
+      }
+      .legend {
+        max-width: 720px;
+        margin: 16px auto 40px;
+        font-size: 12px;
+        color: #5f6368;
+      }
+      .legend code {
+        background: #eee;
+        padding: 1px 4px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Aegis Gorgon demo fixture. This page mimics the minimum structure of an
+      open Gmail message:
+        - A [role="main"] container — the Gmail content script's anchor point.
+        - http(s) anchors inside that container — what the scanner picks up.
+      All hostnames are synthetic. Do not visit any of these URLs.
+    -->
+    <div role="main">
+      <header class="message-header">
+        <h1>Action required: confirm your account before tomorrow</h1>
+        <p class="meta">
+          From: <strong>Security Notice &lt;security@paypa1.example&gt;</strong><br />
+          To: you@example.com<br />
+          Sent: today, 9:42 AM
+        </p>
+      </header>
+
+      <div class="body">
+        <p>Hi there,</p>
+        <p>
+          We noticed a sign-in attempt from a new device. To keep your account
+          secure, please confirm it within 24 hours by clicking
+          <a href="https://paypa1.example/account/verify">verify your account here</a>.
+        </p>
+        <p>
+          If you didn't try to sign in, you can
+          <a href="https://example.com/r?to=https://attacker.example/login"
+            >reset your password from your dashboard</a
+          >.
+        </p>
+        <p>
+          For reference, here is the link to our
+          <a href="https://github.com/aegishield/aegis-gorgon">support center on GitHub</a>
+          and our
+          <a href="https://en.wikipedia.org/wiki/Phishing">phishing FAQ</a>.
+        </p>
+        <p>
+          You can also see our updated policy at
+          <a href="http://10.0.0.1/account/verify">our security site</a>
+          or check the announcement on
+          <a href="https://invoice.zip/file">our latest update page</a>.
+        </p>
+        <p>
+          Thanks,<br />
+          The Security Team
+        </p>
+      </div>
+
+      <div class="footer">
+        © Synthetic Demo Inc. · This is a test fixture for Aegis Gorgon.
+      </div>
+    </div>
+
+    <p class="legend">
+      Aegis fixture · expected verdicts: <code>paypa1.example</code> phishing ·
+      <code>example.com/r?to=...</code> suspicious · <code>10.0.0.1</code> phishing ·
+      <code>invoice.zip</code> suspicious · <code>github.com</code> safe ·
+      <code>en.wikipedia.org</code> safe.
+    </p>
+  </body>
+</html>

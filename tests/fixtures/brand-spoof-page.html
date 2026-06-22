@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign in to PayPal — Aegis brand-spoof fixture</title>
+    <meta property="og:image" content="/login-banner.png" />
+    <meta name="aegis-fixture" content="brand-spoof-page" />
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f7fa;
+        color: #2c2e2f;
+      }
+      .container {
+        max-width: 460px;
+        margin: 64px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 32px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      h1 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+      .logo {
+        display: block;
+        margin: 0 auto 24px;
+        width: 96px;
+        height: 96px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: #6c7378;
+      }
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d4d6d9;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #0070ba;
+        color: white;
+        border: none;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .notice {
+        max-width: 460px;
+        margin: 12px auto 32px;
+        font-size: 12px;
+        color: #7a8085;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Aegis Gorgon visual-inspection fixture. Synthetic — does NOT use any
+      real brand asset. The "login banner" is an inline SVG rendered as
+      data URI on the page itself; the visual layer fetches it and pHashes
+      it. Real product captures would replace this fixture with a curated
+      brand-hash database.
+    -->
+    <div class="container">
+      <!-- Inline SVG "logo": stylised letters PP on a yellow disk. The
+           perceptual hash of this image is what the visual layer compares
+           against the brand DB. -->
+      <img
+        class="logo"
+        alt="logo"
+        src="data:image/svg+xml;utf8,%3Csvg xmlns='http%3A//www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%23ffc439'/%3E%3Ctext x='50%25' y='62%25' font-family='sans-serif' font-size='44' fill='%23003087' text-anchor='middle' font-weight='700'%3EPP%3C/text%3E%3C/svg%3E"
+      />
+      <h1>Sign in to PayPal</h1>
+      <form onsubmit="event.preventDefault(); return false;">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="off" />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="off" />
+        <button type="submit">Log In</button>
+      </form>
+    </div>
+    <p class="notice">
+      Aegis Gorgon synthetic fixture. No credentials are processed by this
+      form. The hostname this is served from does not match the brand's
+      legitimate domains — that's what triggers the visual layer.
+    </p>
+  </body>
+</html>
