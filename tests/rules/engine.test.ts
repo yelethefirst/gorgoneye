@@ -17,7 +17,7 @@ describe("RulesEngine", () => {
   });
 
   it("safe URL → score < 0.30 and no fired signals", () => {
-    const result = analyze("https://github.com/aegishield/aegis-gorgon");
+    const result = analyze("https://github.com/aegishield/gorgon-eye");
     expect(result.score).toBeLessThan(0.3);
     expect(result.signals.filter((s) => s.fired)).toHaveLength(0);
   });

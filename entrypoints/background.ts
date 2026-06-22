@@ -1,3 +1,10 @@
+// onnxruntime-web and some of its transitive dependencies reference `window`.
+// Service workers have no `window`; aliasing globalThis before any imports
+// resolves these checks without breaking the APIs we actually use.
+if (typeof window === "undefined") {
+  (globalThis as unknown as Record<string, unknown>).window = globalThis;
+}
+
 import { defineBackground } from "wxt/sandbox";
 import { registerMessageRouter } from "../src/messaging/router";
 import { analyzeUrl, disabledAnalysis } from "../src/detection/analyzeUrl";

@@ -49,6 +49,7 @@ function main() {
   // `asyncify` as a fallback for runtimes that don't support
   // wasm-multi-threading at all.
   const WANTED = new Set([
+    "ort-wasm-simd.wasm",
     "ort-wasm-simd-threaded.wasm",
     "ort-wasm-simd-threaded.asyncify.wasm",
   ]);

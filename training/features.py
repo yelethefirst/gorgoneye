@@ -1,4 +1,4 @@
-"""Python feature extractor for Aegis Gorgon (Epic 3 / AEG-3-2).
+"""Python feature extractor for Gorgon Eye (Epic 3 / AEG-3-2).
 
 Mirrors ``src/ml/features.ts`` exactly. The two implementations are validated
 against the same frozen snapshot at

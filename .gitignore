@@ -63,4 +63,3 @@ yarn-debug.log*
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
-docs/guides/five-minute-presentation.md

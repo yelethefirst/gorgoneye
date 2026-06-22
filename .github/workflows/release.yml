@@ -1,0 +1,119 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: build chrome-mv3 + firefox-mv2 → draft release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Gate the release on the same checks CI runs on main.
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test:coverage
+
+      # Confirm the tag's version matches package.json. Catches "I tagged
+      # v0.2.0 but forgot to bump package.json" — without this check, the
+      # tag goes out the door pointing at the wrong manifest version.
+      - name: Verify tag matches package.json version
+        id: ver
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          echo "tag=${TAG_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pkg=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
+          if [ "${PKG_VERSION}" != "${TAG_VERSION}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}"
+            exit 1
+          fi
+
+      # Both targets and the Chrome zip.
+      - run: pnpm build
+      - run: pnpm build:firefox
+      - run: pnpm zip
+
+      # WXT's `wxt zip` produces the Chrome upload; we build the Firefox
+      # zip ourselves because `wxt zip -b firefox` was not the convention at
+      # the time of writing this workflow. If WXT later grows that
+      # invocation, replace the inline zip with `pnpm zip:firefox`.
+      - name: Package Firefox MV2 zip
+        run: |
+          mkdir -p .output
+          ( cd .output/firefox-mv2 && zip -r "../gorgon-eye-${{ steps.ver.outputs.tag }}-firefox.zip" . )
+          ls -la .output/*.zip
+
+      # Pull the release notes from CHANGELOG.md for the matching version.
+      # Falls back to a one-line placeholder if the entry is missing so the
+      # workflow doesn't fail — the draft can still be edited by hand.
+      - name: Extract release notes from CHANGELOG
+        id: notes
+        run: |
+          VERSION="${{ steps.ver.outputs.tag }}"
+          NOTES_FILE="$(mktemp)"
+          if [ -f CHANGELOG.md ] && awk -v ver="${VERSION}" '
+            BEGIN { in_section = 0 }
+            /^## \[/ {
+              if (in_section) { exit }
+              if ($0 ~ "\\[" ver "\\]") { in_section = 1; next }
+            }
+            in_section { print }
+          ' CHANGELOG.md > "$NOTES_FILE" && [ -s "$NOTES_FILE" ]; then
+            echo "found notes for ${VERSION}"
+          else
+            echo "## ${VERSION}" > "$NOTES_FILE"
+            echo "" >> "$NOTES_FILE"
+            echo "_No CHANGELOG entry found for this tag — edit the draft before publishing._" >> "$NOTES_FILE"
+          fi
+          {
+            echo "body<<EOF"
+            cat "$NOTES_FILE"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # Draft (not published) so a human reviews before it goes live.
+      # softprops/action-gh-release will create the release if missing or
+      # update it if it already exists for this tag.
+      - name: Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          body: ${{ steps.notes.outputs.body }}
+          files: |
+            .output/gorgon-eye-${{ steps.ver.outputs.tag }}-chrome.zip
+            .output/gorgon-eye-${{ steps.ver.outputs.tag }}-firefox.zip
+          fail_on_unmatched_files: true
+
+      - name: Upload build outputs as workflow artifacts (7-day retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-builds-${{ steps.ver.outputs.tag }}
+          path: |
+            .output/chrome-mv3
+            .output/firefox-mv2
+            .output/gorgon-eye-${{ steps.ver.outputs.tag }}-chrome.zip
+            .output/gorgon-eye-${{ steps.ver.outputs.tag }}-firefox.zip
+          if-no-files-found: error
+          retention-days: 7

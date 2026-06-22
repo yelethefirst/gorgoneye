@@ -267,7 +267,7 @@ export function App() {
     >
       <header className="mb-3 flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-base font-semibold">Aegis Gorgon</h1>
+          <h1 className="text-base font-semibold">Gorgon Eye</h1>
           <p className="text-xs text-text-secondary">
             Local-first phishing defense. Email content stays on your device.
           </p>

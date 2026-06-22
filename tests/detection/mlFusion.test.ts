@@ -18,7 +18,7 @@ class ThrowingPredictor implements Predictor {
   }
 }
 
-const SAFE_URL = "https://github.com/aegishield/aegis-gorgon";
+const SAFE_URL = "https://github.com/aegishield/gorgon-eye";
 const SUSPICIOUS_URL = "https://shop.example.co.uk/account/login";
 
 function makeClient(value: number, threshold = 0.6) {

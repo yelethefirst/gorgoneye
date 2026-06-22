@@ -18,7 +18,7 @@ interface StepConfig {
 const STEPS: Record<Exclude<StepId, "done">, StepConfig> = {
   intro: {
     id: "intro",
-    title: "Welcome to Aegis Gorgon",
+    title: "Welcome to Gorgon Eye",
     body: (
       <>
         <p className="text-sm">
@@ -85,7 +85,7 @@ const STEPS: Record<Exclude<StepId, "done">, StepConfig> = {
             top-right corner of your browser.
           </li>
           <li>
-            Find <strong>Aegis Gorgon</strong> in the list.
+            Find <strong>Gorgon Eye</strong> in the list.
           </li>
           <li>
             Click the pin icon next to it. The Aegis icon will move into the
@@ -137,7 +137,7 @@ export function App() {
   return (
     <main className="mx-auto max-w-xl px-4 py-12 font-sans text-text-primary">
       <header className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Aegis Gorgon</h1>
+        <h1 className="text-2xl font-semibold">Gorgon Eye</h1>
         <span className="text-xs uppercase tracking-wide text-text-tertiary" aria-live="polite">
           Step {idx + 1} of {STEP_ORDER.length}
         </span>

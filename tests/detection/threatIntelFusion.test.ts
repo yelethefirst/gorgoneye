@@ -25,7 +25,7 @@ function hexToBase64(hex: string): string {
   return btoa(bin);
 }
 
-const URL_BENIGN = "https://github.com/aegishield/aegis-gorgon";
+const URL_BENIGN = "https://github.com/aegishield/gorgon-eye";
 const URL_FOR_TI = "https://example.com/login";
 
 describe("analyzeUrl + threat-intel fusion (AEG-5-4)", () => {

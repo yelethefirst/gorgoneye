@@ -1,5 +1,5 @@
 {
-  "name": "aegis-gorgon",
+  "name": "gorgon-eye",
   "version": "0.0.1",
   "private": true,
   "description": "Privacy-preserving phishing defense browser extension.",
@@ -10,6 +10,7 @@
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
+    "build:landing": "vite build --config vite.config.landing.ts",
     "compile": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

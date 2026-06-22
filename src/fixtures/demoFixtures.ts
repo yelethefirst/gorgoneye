@@ -129,7 +129,7 @@ export const DEMO_FIXTURES: DemoFixture[] = [
 
   // ────────── Safe (8) ──────────
   {
-    url: "https://github.com/aegishield/aegis-gorgon",
+    url: "https://github.com/aegishield/gorgon-eye",
     expectedVerdict: "safe",
     expectedRules: [],
     description: "Known good registrable domain, benign path.",

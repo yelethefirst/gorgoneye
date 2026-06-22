@@ -11,7 +11,7 @@ export default defineConfig({
   srcDir: ".",
   outDir: ".output",
   manifest: {
-    name: "Aegis Gorgon",
+    name: "Gorgon Eye",
     description:
       "Privacy-preserving phishing defense. Analyzes URLs locally and explains why a link looks risky.",
     permissions: ["storage", "scripting", "activeTab", "tabs"],
@@ -24,7 +24,7 @@ export default defineConfig({
       "https://raw.githubusercontent.com/*",
     ],
     action: {
-      default_title: "Aegis Gorgon",
+      default_title: "Gorgon Eye",
     },
     // Manifest V3 requires explicit allowance for WebAssembly because
     // onnxruntime-web compiles its WASM at load time via the streaming API.

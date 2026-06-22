@@ -44,7 +44,7 @@ test("the extension loads and exposes the welcome page", async () => {
   // extension didn't load at all.
   const welcomePage = await context.waitForEvent("page", { timeout: 15_000 });
   await welcomePage.waitForLoadState("domcontentloaded");
-  await expect(welcomePage.locator("body")).toContainText("Aegis Gorgon");
+  await expect(welcomePage.locator("body")).toContainText("Gorgon Eye");
   await welcomePage.close();
 });
 

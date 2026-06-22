@@ -15,7 +15,7 @@ describe("summarizeVerdicts", () => {
 
   it("counts verdicts by category across a mixed list", async () => {
     const safe = await analyzeUrl({
-      url: "https://github.com/aegishield/aegis-gorgon",
+      url: "https://github.com/aegishield/gorgon-eye",
       context: { surface: "test_fixture", userGesture: "manual_scan" },
     });
     const suspicious = await analyzeUrl({

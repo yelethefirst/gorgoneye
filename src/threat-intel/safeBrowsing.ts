@@ -86,7 +86,7 @@ export class SafeBrowsingClient {
 
     // Body carries ONLY hash prefixes — never the URL or any URL component.
     const requestBody = JSON.stringify({
-      client: { clientId: "aegis-gorgon", clientVersion: "0.0.1" },
+      client: { clientId: "gorgon-eye", clientVersion: "0.0.1" },
       threatInfo: {
         threatTypes: ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
         platformTypes: ["ANY_PLATFORM"],

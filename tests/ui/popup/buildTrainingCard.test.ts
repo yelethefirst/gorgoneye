@@ -7,7 +7,7 @@ const ctx = { surface: "test_fixture" as const, userGesture: "manual_scan" as co
 describe("buildTrainingCard", () => {
   it("returns null for a safe verdict", async () => {
     const result = await analyzeUrl({
-      url: "https://github.com/aegishield/aegis-gorgon",
+      url: "https://github.com/aegishield/gorgon-eye",
       context: ctx,
     });
     expect(result.verdict).toBe("safe");

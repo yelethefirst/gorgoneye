@@ -21,7 +21,7 @@ export function App() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 font-sans text-text-primary">
       <header className="mb-6">
-        <h1 className="text-xl font-semibold">Aegis Gorgon — Settings</h1>
+        <h1 className="text-xl font-semibold">Gorgon Eye — Settings</h1>
         <p className="mt-1 text-sm text-text-secondary">
           Configure detection layers, manage trusted domains, audit outbound calls,
           and run the privacy verifier. Everything on this page is local.

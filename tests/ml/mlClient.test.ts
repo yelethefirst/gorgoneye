@@ -23,7 +23,7 @@ class NonFinitePredictor implements Predictor {
   }
 }
 
-const SAMPLE_PARSED = parseUrl("https://github.com/aegishield/aegis-gorgon");
+const SAMPLE_PARSED = parseUrl("https://github.com/aegishield/gorgon-eye");
 const PHISH_PARSED = parseUrl("https://paypa1.example/account/verify");
 
 describe("MlClient.predict", () => {

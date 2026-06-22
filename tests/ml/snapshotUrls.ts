@@ -15,7 +15,7 @@
  *   - reserved TLD
  */
 export const SNAPSHOT_URLS = [
-  "https://github.com/aegishield/aegis-gorgon",
+  "https://github.com/aegishield/gorgon-eye",
   "https://en.wikipedia.org/wiki/Phishing",
   "https://shop.example.co.uk/account/login",
   "http://10.0.0.1/account/verify",

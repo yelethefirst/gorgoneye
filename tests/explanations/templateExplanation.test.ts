@@ -32,7 +32,7 @@ describe("buildTemplateExplanation", () => {
 
   it("produces a safe explanation with no 'Specifically' section when nothing fired", async () => {
     const result = await analyzeUrl({
-      url: "https://github.com/aegishield/aegis-gorgon",
+      url: "https://github.com/aegishield/gorgon-eye",
       context: { surface: "test_fixture", userGesture: "manual_scan" },
     });
     const exp = buildTemplateExplanation(result, { now: FIXED_NOW });
@@ -66,7 +66,7 @@ describe("buildTemplateExplanation", () => {
 
   it("is deterministic with the same `now` injection", async () => {
     const result = await analyzeUrl({
-      url: "https://github.com/aegishield/aegis-gorgon",
+      url: "https://github.com/aegishield/gorgon-eye",
       context: { surface: "test_fixture", userGesture: "manual_scan" },
     });
     const a = buildTemplateExplanation(result, { now: FIXED_NOW });

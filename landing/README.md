@@ -17,7 +17,7 @@ npx serve landing -p 4200
 
 ## What to update before a release
 
-- Replace the GitHub URLs (currently `aegishield/aegis-gorgon`) with the real
+- Replace the GitHub URLs (currently `aegishield/gorgon-eye`) with the real
   org/repo once the project is moved.
 - Update the version badge and the build-instructions section if the install
   flow changes.

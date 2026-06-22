@@ -3,7 +3,7 @@
   "generatedBy": "tests/ml/features.parity.test.ts (auto-generated on first run)",
   "rows": [
     {
-      "url": "https://github.com/aegishield/aegis-gorgon",
+      "url": "https://github.com/aegishield/gorgon-eye",
       "features": {
         "url_length": 42,
         "hostname_length": 10,

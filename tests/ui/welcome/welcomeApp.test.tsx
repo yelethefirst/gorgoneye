@@ -5,7 +5,7 @@ import { App } from "../../../entrypoints/welcome/App";
 describe("Welcome App (initial render)", () => {
   it("starts on the intro step with the welcome heading and a step indicator", () => {
     const html = renderToStaticMarkup(<App />);
-    expect(html).toContain("Welcome to Aegis Gorgon");
+    expect(html).toContain("Welcome to Gorgon Eye");
     expect(html).toContain("Step 1 of 4");
   });
 

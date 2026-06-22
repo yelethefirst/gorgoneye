@@ -33,7 +33,7 @@ export interface ExplanationPromptPayload {
 }
 
 const SYSTEM_PROMPT = [
-  "You explain Aegis Gorgon phishing verdicts to non-technical users.",
+  "You explain Gorgon Eye phishing verdicts to non-technical users.",
   "Use only the JSON evidence provided by the user message.",
   "Do not invent evidence, brands, page content, sender identity, email body, screenshots, or headers.",
   'Return JSON only in this shape: {"text":"2-3 sentences","guidance":["action 1","action 2"]}.',
